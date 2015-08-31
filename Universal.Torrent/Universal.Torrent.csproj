@@ -1,0 +1,342 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{3DB85B88-9CA0-4DAA-8CE1-0AB6E550C9D8}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Universal.Torrent</RootNamespace>
+    <AssemblyName>Universal.Torrent</AssemblyName>
+    <DefaultLanguage>en-US</DefaultLanguage>
+    <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
+    <TargetPlatformVersion>10.0.10240.0</TargetPlatformVersion>
+    <TargetPlatformMinVersion>10.0.10240.0</TargetPlatformMinVersion>
+    <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
+    <PlatformTarget>ARM</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\ARM\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>ARM</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|ARM'">
+    <PlatformTarget>ARM</PlatformTarget>
+    <OutputPath>bin\ARM\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>ARM</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <PlatformTarget>x64</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <PlatformTarget>x64</PlatformTarget>
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <PlatformTarget>x86</PlatformTarget>
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
+    <None Include="project.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BanLists\BanList.cs" />
+    <Compile Include="BanLists\ListParser.cs" />
+    <Compile Include="BanLists\RangeCollection.cs" />
+    <Compile Include="Bencoding\BEncodedDictionary.cs" />
+    <Compile Include="Bencoding\BEncodedList.cs" />
+    <Compile Include="Bencoding\BEncodedNumber.cs" />
+    <Compile Include="Bencoding\BEncodedString.cs" />
+    <Compile Include="Bencoding\BEncodingException.cs" />
+    <Compile Include="Bencoding\IBEncodedValue.cs" />
+    <Compile Include="Bencoding\RawReader.cs" />
+    <Compile Include="Client\AllowedFastAlgorithm.cs" />
+    <Compile Include="Client\AsyncConnectState.cs" />
+    <Compile Include="Client\AsyncIOState.cs" />
+    <Compile Include="Client\Block.cs" />
+    <Compile Include="Client\ClientEngine.cs" />
+    <Compile Include="Client\ConnectionListeners\IListener.cs" />
+    <Compile Include="Client\ConnectionListeners\Listener.cs" />
+    <Compile Include="Client\ConnectionListeners\LocalPeerListener.cs" />
+    <Compile Include="Client\ConnectionListeners\PeerListener.cs" />
+    <Compile Include="Client\ConnectionListeners\SocketListener.cs" />
+    <Compile Include="Client\ConnectionListeners\UdpListener.cs" />
+    <Compile Include="Client\Encryption\BigInteger\BigInteger.cs" />
+    <Compile Include="Client\Encryption\EncryptedSocket.cs" />
+    <Compile Include="Client\Encryption\EncryptorFactory.cs" />
+    <Compile Include="Client\Encryption\IEncryption\IEncryption.cs" />
+    <Compile Include="Client\Encryption\IEncryption\PlainTextEncryption.cs" />
+    <Compile Include="Client\Encryption\IEncryption\RC4.cs" />
+    <Compile Include="Client\Encryption\IEncryption\RC4Header.cs" />
+    <Compile Include="Client\Encryption\IEncryptor\IEncryptor.cs" />
+    <Compile Include="Client\Encryption\ModuloCalculator.cs" />
+    <Compile Include="Client\Encryption\PeerAEncryption.cs" />
+    <Compile Include="Client\Encryption\PeerBEncryption.cs" />
+    <Compile Include="Client\Args\AnnounceResponseEventArgs.cs" />
+    <Compile Include="Client\Args\AttemptConnectionEventArgs.cs" />
+    <Compile Include="Client\Args\BlockEventArgs.cs" />
+    <Compile Include="Client\Args\CriticalExceptionEventArgs.cs" />
+    <Compile Include="Client\Args\DhtPeersAdded.cs" />
+    <Compile Include="Client\Args\LocalPeersAdded.cs" />
+    <Compile Include="Client\Args\NewConnectionEventArgs.cs" />
+    <Compile Include="Client\Args\PeerAddedEventArgs.cs" />
+    <Compile Include="Client\Args\PeerConnectionEventArgs.cs" />
+    <Compile Include="Client\Args\PeerConnectionFailedEventArgs.cs" />
+    <Compile Include="Client\Args\PeerEventArgs.cs" />
+    <Compile Include="Client\Args\PeerExchangePeersAdded.cs" />
+    <Compile Include="Client\Args\PeersAddedEventArgs.cs" />
+    <Compile Include="Client\Args\PeersFoundEventArgs.cs" />
+    <Compile Include="Client\Args\PieceHashedEventArgs.cs" />
+    <Compile Include="Client\Args\ScrapeResponseEventArgs.cs" />
+    <Compile Include="Client\Args\StateUpdateEventArgs.cs" />
+    <Compile Include="Client\Args\TorrentEventArgs.cs" />
+    <Compile Include="Client\Args\TorrentStateChangedEventArgs.cs" />
+    <Compile Include="Client\Args\TrackerPeersAdded.cs" />
+    <Compile Include="Client\Args\TrackerRequestEventArgs.cs" />
+    <Compile Include="Client\Args\TrackerStateChangedEventArgs.cs" />
+    <Compile Include="Client\Exceptions\ConnectionException.cs" />
+    <Compile Include="Client\Exceptions\ListenerException.cs" />
+    <Compile Include="Client\Exceptions\MessageException.cs" />
+    <Compile Include="Client\Exceptions\ProtocolException.cs" />
+    <Compile Include="Client\Exceptions\TorrentLoadException.cs" />
+    <Compile Include="Client\FastResume.cs" />
+    <Compile Include="Client\FileStreamBuffer.cs" />
+    <Compile Include="Client\IDhtEngine.cs" />
+    <Compile Include="Client\MainLoop.cs" />
+    <Compile Include="Client\Managers\BufferManager.cs" />
+    <Compile Include="Client\Managers\ChokeUnchokeManager.cs" />
+    <Compile Include="Client\Managers\ConnectionManager.cs" />
+    <Compile Include="Client\Managers\ConnectionMonitor.cs" />
+    <Compile Include="Client\Managers\DiskManager.cs" />
+    <Compile Include="Client\Managers\InactivePeerManager.cs" />
+    <Compile Include="Client\Managers\ListenManager.cs" />
+    <Compile Include="Client\Managers\LocalPeerManager.cs" />
+    <Compile Include="Client\Managers\MessageEventArgs.cs" />
+    <Compile Include="Client\Managers\PeerExchangeManager.cs" />
+    <Compile Include="Client\Managers\PeerManager.cs" />
+    <Compile Include="Client\Managers\PieceManager.cs" />
+    <Compile Include="Client\Managers\TorrentManager.cs" />
+    <Compile Include="Client\Managers\TrackerManager.cs" />
+    <Compile Include="Client\Messages\FastPeerExtensions\AllowedFastMessage.cs" />
+    <Compile Include="Client\Messages\FastPeerExtensions\HaveAllMessage.cs" />
+    <Compile Include="Client\Messages\FastPeerExtensions\HaveNoneMessage.cs" />
+    <Compile Include="Client\Messages\FastPeerExtensions\IFastPeerMessage.cs" />
+    <Compile Include="Client\Messages\FastPeerExtensions\RejectRequestMessage.cs" />
+    <Compile Include="Client\Messages\FastPeerExtensions\SuggestPieceMessage.cs" />
+    <Compile Include="Client\Messages\IMessage.cs" />
+    <Compile Include="Client\Messages\LibtorrentMessages\ExtendedHandshakeMessage.cs" />
+    <Compile Include="Client\Messages\LibtorrentMessages\ExtensionSupports.cs" />
+    <Compile Include="Client\Messages\LibtorrentMessages\LibtorrentMessage.cs" />
+    <Compile Include="Client\Messages\LibtorrentMessages\LTChat.cs" />
+    <Compile Include="Client\Messages\LibtorrentMessages\LTMetadata.cs" />
+    <Compile Include="Client\Messages\LibtorrentMessages\LTSupport.cs" />
+    <Compile Include="Client\Messages\Message.cs" />
+    <Compile Include="Client\Messages\MessageBundle.cs" />
+    <Compile Include="Client\Messages\PeerMessage.cs" />
+    <Compile Include="Client\Messages\StandardMessages\BitfieldMessage.cs" />
+    <Compile Include="Client\Messages\StandardMessages\CancelMessage.cs" />
+    <Compile Include="Client\Messages\StandardMessages\ChokeMessage.cs" />
+    <Compile Include="Client\Messages\StandardMessages\HandshakeMessage.cs" />
+    <Compile Include="Client\Messages\StandardMessages\HaveMessage.cs" />
+    <Compile Include="Client\Messages\StandardMessages\InterestedMessage.cs" />
+    <Compile Include="Client\Messages\StandardMessages\KeepAliveMessage.cs" />
+    <Compile Include="Client\Messages\StandardMessages\NotInterestedMessage.cs" />
+    <Compile Include="Client\Messages\StandardMessages\PieceMessage.cs" />
+    <Compile Include="Client\Messages\StandardMessages\PortMessage.cs" />
+    <Compile Include="Client\Messages\StandardMessages\RequestMessage.cs" />
+    <Compile Include="Client\Messages\StandardMessages\UnchokeMessage.cs" />
+    <Compile Include="Client\Messages\UdpTrackerMessages\AnnounceMessage.cs" />
+    <Compile Include="Client\Messages\UdpTrackerMessages\AnnounceResponseMessage.cs" />
+    <Compile Include="Client\Messages\UdpTrackerMessages\ConnectMessage.cs" />
+    <Compile Include="Client\Messages\UdpTrackerMessages\ConnectResponseMessage.cs" />
+    <Compile Include="Client\Messages\UdpTrackerMessages\ErrorMessage.cs" />
+    <Compile Include="Client\Messages\UdpTrackerMessages\Extensions\AuthenticationMessage.cs" />
+    <Compile Include="Client\Messages\UdpTrackerMessages\MessageType.cs" />
+    <Compile Include="Client\Messages\UdpTrackerMessages\ScrapeDetails.cs" />
+    <Compile Include="Client\Messages\UdpTrackerMessages\ScrapeMessage.cs" />
+    <Compile Include="Client\Messages\UdpTrackerMessages\ScrapeResponseMessage.cs" />
+    <Compile Include="Client\Messages\UdpTrackerMessages\UdpTrackerMessage.cs" />
+    <Compile Include="Client\Messages\uTorrent\PeerExchangeMessage.cs" />
+    <Compile Include="Client\Modes\DownloadMode.cs" />
+    <Compile Include="Client\Modes\ErrorMode.cs" />
+    <Compile Include="Client\Modes\HashingMode.cs" />
+    <Compile Include="Client\Modes\InitialSeedingMode.cs" />
+    <Compile Include="Client\Modes\MetadataMode.cs" />
+    <Compile Include="Client\Modes\Mode.cs" />
+    <Compile Include="Client\Modes\PausedMode.cs" />
+    <Compile Include="Client\Modes\StoppedMode.cs" />
+    <Compile Include="Client\Modes\StoppingMode.cs" />
+    <Compile Include="Client\NetworkIO.cs" />
+    <Compile Include="Client\NetworkIO\ReceiveMessageState.cs" />
+    <Compile Include="Client\NetworkIO\State.cs" />
+    <Compile Include="Client\NullDhtEngine.cs" />
+    <Compile Include="Client\PeerConnections\ConnectionFactory.cs" />
+    <Compile Include="Client\PeerConnections\HTTPConnection.cs" />
+    <Compile Include="Client\PeerConnections\HttpRequestData.cs" />
+    <Compile Include="Client\PeerConnections\IConnection.cs" />
+    <Compile Include="Client\PeerConnections\PeerId.cs" />
+    <Compile Include="Client\PeerConnections\TCPConnection.cs" />
+    <Compile Include="Client\PeerIO.cs" />
+    <Compile Include="Client\Peers\Peer.cs" />
+    <Compile Include="Client\Peers\PeerList.cs" />
+    <Compile Include="Client\Piece.cs" />
+    <Compile Include="Client\PiecePicking\EndGamePicker.cs" />
+    <Compile Include="Client\PiecePicking\EndGameSwitcher.cs" />
+    <Compile Include="Client\PiecePicking\IgnoringPicker.cs" />
+    <Compile Include="Client\PiecePicking\LoggingPicker.cs" />
+    <Compile Include="Client\PiecePicking\NullPicker.cs" />
+    <Compile Include="Client\PiecePicking\PiecePicker.cs" />
+    <Compile Include="Client\PiecePicking\PriorityPicker.cs" />
+    <Compile Include="Client\PiecePicking\RandomisedPicker.cs" />
+    <Compile Include="Client\PiecePicking\RarestFirstPicker.cs" />
+    <Compile Include="Client\PiecePicking\SlidingWindowPicker.cs" />
+    <Compile Include="Client\PiecePicking\SortedList.cs" />
+    <Compile Include="Client\PiecePicking\StandardPicker.cs" />
+    <Compile Include="Client\PieceWriter\IPieceWriter.cs" />
+    <Compile Include="Client\PieceWriter\DiskWriter.cs" />
+    <Compile Include="Client\PieceWriter\NtfsSparseFile.cs" />
+    <Compile Include="Client\PieceWriter\PieceData.cs" />
+    <Compile Include="Client\PieceWriter\PieceWriter.cs" />
+    <Compile Include="Client\RateLimiters\DiskWriterLimiter.cs" />
+    <Compile Include="Client\RateLimiters\IRateLimiter.cs" />
+    <Compile Include="Client\RateLimiters\PauseLimiter.cs" />
+    <Compile Include="Client\RateLimiters\RateLimiter.cs" />
+    <Compile Include="Client\RateLimiters\RateLimiterGroup.cs" />
+    <Compile Include="Client\Settings\EngineSettings.cs" />
+    <Compile Include="Client\Settings\TorrentSettings.cs" />
+    <Compile Include="Client\TorrentFileStream.cs" />
+    <Compile Include="Client\Tracker\AnnounceParameters.cs" />
+    <Compile Include="Client\Tracker\HTTPTracker.cs" />
+    <Compile Include="Client\Tracker\ITracker.cs" />
+    <Compile Include="Client\Tracker\ScrapeParameters.cs" />
+    <Compile Include="Client\Tracker\Tracker.cs" />
+    <Compile Include="Client\Tracker\TrackerConnectionId.cs" />
+    <Compile Include="Client\Tracker\TrackerFactory.cs" />
+    <Compile Include="Client\Tracker\TrackerTier.cs" />
+    <Compile Include="Client\Tracker\UdpTracker.cs" />
+    <Compile Include="Client\TransferType.cs" />
+    <Compile Include="Client\Unchokers\InitialSeedUnchoker.cs" />
+    <Compile Include="Client\Unchokers\IUnchoker.cs" />
+    <Compile Include="Client\Unchokers\Unchoker.cs" />
+    <Compile Include="Client\WaitHandleGroup.cs" />
+    <Compile Include="Common\AsyncResult.cs" />
+    <Compile Include="Common\BitField.cs" />
+    <Compile Include="Common\Cache.cs" />
+    <Compile Include="Common\Check.cs" />
+    <Compile Include="Common\Dns.cs" />
+    <Compile Include="Common\Enums.cs" />
+    <Compile Include="Common\EventArgs\TorrentCreatorEventArgs.cs" />
+    <Compile Include="Common\FileMapping.cs" />
+    <Compile Include="Common\Hashes.cs" />
+    <Compile Include="Common\ICacheable.cs" />
+    <Compile Include="Common\ICloneable.cs" />
+    <Compile Include="Common\IFileSource.cs" />
+    <Compile Include="Common\InfoHash.cs" />
+    <Compile Include="Common\MagnetLink.cs" />
+    <Compile Include="Common\MonoTorrentCollectionBase.cs" />
+    <Compile Include="Common\PeerID.cs" />
+    <Compile Include="Common\RawTrackerTier.cs" />
+    <Compile Include="Common\RawTrackerTiers.cs" />
+    <Compile Include="Common\SHA1.cs" />
+    <Compile Include="Common\SpeedMonitor.cs" />
+    <Compile Include="Common\StorageHelper.cs" />
+    <Compile Include="Common\TimeoutDispatcher.cs" />
+    <Compile Include="Common\ToolBox.cs" />
+    <Compile Include="Common\Torrent.cs" />
+    <Compile Include="Common\TorrentException.cs" />
+    <Compile Include="Common\TorrentFile.cs" />
+    <Compile Include="Common\TorrentFileSource.cs" />
+    <Compile Include="Common\UriHelper.cs" />
+    <Compile Include="Common\UriQueryBuilder.cs" />
+    <Compile Include="Client\Encryption\EncryptionTypes.cs" />
+    <Compile Include="Common\VersionInfo.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Content Include="Properties\Torrent.Uwp.rd.xml" />
+  </ItemGroup>
+  <ItemGroup />
+  <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
+    <VisualStudioVersion>14.0</VisualStudioVersion>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
