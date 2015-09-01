@@ -84,12 +84,7 @@ namespace Universal.Torrent.Common
         {
             var items = await folder.GetItemsAsync();
             foreach (var storageItem in items)
-            {
-                if (storageItem is StorageFolder)
-                    await (storageItem as StorageFolder).DeleteAsync();
-                else if (storageItem is StorageFile)
-                    await (storageItem as StorageFile).DeleteAsync();
-            }
+                await storageItem.DeleteAsync();
         }
 
         public static async Task<StorageFile> GetIfFileExistsAsync(string path,
