@@ -28,6 +28,7 @@
 
 
 using System.Net;
+using Windows.Storage;
 using Universal.Torrent.Client.Encryption;
 using Universal.Torrent.Common;
 
@@ -72,14 +73,14 @@ namespace Universal.Torrent.Client.Settings
         // If encrypted and unencrypted connections are enabled, specifies if encryption should be chosen first
         public bool PreferEncryption { get; set; }
         // The path that torrents will be downloaded to by default
-        public string SavePath { get; set; }
+        public StorageFolder SaveFolder { get; set; }
 
         #endregion Properties
 
         #region Defaults
 
         private const bool DefaultEnableHaveSupression = false;
-        private const string DefaultSavePath = "";
+        private static readonly StorageFolder DefaultSavePath = ApplicationData.Current.LocalFolder;
         private const int DefaultMaxConnections = 150;
         private const int DefaultMaxDownloadSpeed = 0;
         private const int DefaultMaxUploadSpeed = 0;
@@ -97,29 +98,29 @@ namespace Universal.Torrent.Client.Settings
         {
         }
 
-        public EngineSettings(string defaultSavePath, int listenPort)
+        public EngineSettings(StorageFolder defaultSaveFolder, int listenPort)
             : this(
-                defaultSavePath, listenPort, DefaultMaxConnections, DefaultMaxHalfOpenConnections,
+                defaultSaveFolder, listenPort, DefaultMaxConnections, DefaultMaxHalfOpenConnections,
                 DefaultMaxDownloadSpeed, DefaultMaxUploadSpeed, DefaultAllowedEncryption)
         {
         }
 
-        public EngineSettings(string defaultSavePath, int listenPort, int globalMaxConnections)
+        public EngineSettings(StorageFolder defaultSaveFolder, int listenPort, int globalMaxConnections)
             : this(
-                defaultSavePath, listenPort, globalMaxConnections, DefaultMaxHalfOpenConnections,
+                defaultSaveFolder, listenPort, globalMaxConnections, DefaultMaxHalfOpenConnections,
                 DefaultMaxDownloadSpeed, DefaultMaxUploadSpeed, DefaultAllowedEncryption)
         {
         }
 
-        public EngineSettings(string defaultSavePath, int listenPort, int globalMaxConnections,
+        public EngineSettings(StorageFolder defaultSaveFolder, int listenPort, int globalMaxConnections,
             int globalHalfOpenConnections)
             : this(
-                defaultSavePath, listenPort, globalMaxConnections, globalHalfOpenConnections, DefaultMaxDownloadSpeed,
+                defaultSaveFolder, listenPort, globalMaxConnections, globalHalfOpenConnections, DefaultMaxDownloadSpeed,
                 DefaultMaxUploadSpeed, DefaultAllowedEncryption)
         {
         }
 
-        public EngineSettings(string defaultSavePath, int listenPort, int globalMaxConnections,
+        public EngineSettings(StorageFolder defaultSaveFolder, int listenPort, int globalMaxConnections,
             int globalHalfOpenConnections, int globalMaxDownloadSpeed, int globalMaxUploadSpeed,
             EncryptionTypes allowedEncryption)
         {
@@ -129,7 +130,7 @@ namespace Universal.Torrent.Client.Settings
             GlobalMaxHalfOpenConnections = globalHalfOpenConnections;
             ListenPort = listenPort;
             AllowedEncryption = allowedEncryption;
-            SavePath = defaultSavePath;
+            SaveFolder = defaultSaveFolder;
             HaveSupressionEnabled = DefaultEnableHaveSupression;
         }
 
@@ -150,15 +151,13 @@ namespace Universal.Torrent.Client.Settings
         public override bool Equals(object obj)
         {
             var settings = obj as EngineSettings;
-            return (settings == null)
-                ? false
-                : GlobalMaxConnections == settings.GlobalMaxConnections &&
-                  GlobalMaxDownloadSpeed == settings.GlobalMaxDownloadSpeed &&
-                  GlobalMaxHalfOpenConnections == settings.GlobalMaxHalfOpenConnections &&
-                  GlobalMaxUploadSpeed == settings.GlobalMaxUploadSpeed &&
-                  ListenPort == settings.ListenPort &&
-                  AllowedEncryption == settings.AllowedEncryption &&
-                  SavePath == settings.SavePath;
+            return (settings != null) && (GlobalMaxConnections == settings.GlobalMaxConnections &&
+                                          GlobalMaxDownloadSpeed == settings.GlobalMaxDownloadSpeed &&
+                                          GlobalMaxHalfOpenConnections == settings.GlobalMaxHalfOpenConnections &&
+                                          GlobalMaxUploadSpeed == settings.GlobalMaxUploadSpeed &&
+                                          ListenPort == settings.ListenPort &&
+                                          AllowedEncryption == settings.AllowedEncryption &&
+                                          SaveFolder == settings.SaveFolder);
         }
 
         public override int GetHashCode()
@@ -169,7 +168,7 @@ namespace Universal.Torrent.Client.Settings
                    GlobalMaxUploadSpeed +
                    ListenPort.GetHashCode() +
                    AllowedEncryption.GetHashCode() +
-                   SavePath.GetHashCode();
+                   SaveFolder.GetHashCode();
         }
 
         #endregion Methods

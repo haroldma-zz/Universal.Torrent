@@ -34,7 +34,7 @@ namespace Universal.Torrent.Client
 {
     public class Piece : IComparable<Piece>
     {
-        internal const int BlockSize = (1 << 14); // 16kB
+        public const int BlockSize = (1 << 14); // 16kB
 
         #region Member Variables
 

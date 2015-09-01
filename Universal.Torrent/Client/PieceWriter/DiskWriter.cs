@@ -72,16 +72,14 @@ namespace Universal.Torrent.Client.PieceWriter
             Check.Buffer(buffer);
             if (offset < 0L || offset + count > file.Length)
                 throw new ArgumentOutOfRangeException(nameof(offset));
-            using (var s = GetStream(file, FileAccessMode.Read))
-            {
-                if (s == null || s.Size < (ulong) offset + (ulong) count)
-                    return 0;
+            var s = GetStream(file, FileAccessMode.Read);
+            if (s == null || s.Size < (ulong) offset + (ulong) count)
+                return 0;
 
-                s.Seek((ulong) offset);
-                var buff = buffer.AsBuffer(bufferOffset, count);
-                s.ReadAsync(buff, (uint) count, InputStreamOptions.Partial).AsTask().Wait();
-                return count;
-            }
+            s.Seek((ulong) offset);
+            var buff = buffer.AsBuffer(bufferOffset, count);
+            s.ReadAsync(buff, (uint) count, InputStreamOptions.Partial).AsTask().Wait();
+            return count;
         }
 
         public override void Write(TorrentFile file, long offset, byte[] buffer, int bufferOffset, int count)
@@ -90,11 +88,9 @@ namespace Universal.Torrent.Client.PieceWriter
             Check.Buffer(buffer);
             if (offset < 0L || offset + count > file.Length)
                 throw new ArgumentOutOfRangeException(nameof(offset));
-            using (var s = GetStream(file, FileAccessMode.ReadWrite))
-            {
-                s.Seek((ulong) offset);
-                s.WriteAsync(buffer.AsBuffer(bufferOffset, count)).AsTask().Wait();
-            }
+            var s = GetStream(file, FileAccessMode.ReadWrite);
+            s.Seek((ulong) offset);
+            s.WriteAsync(buffer.AsBuffer(bufferOffset, count)).AsTask().Wait();
         }
 
         public override bool Exists(TorrentFile file)

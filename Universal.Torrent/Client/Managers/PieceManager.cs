@@ -29,6 +29,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Universal.Torrent.Client.Args;
 using Universal.Torrent.Client.Messages;
 using Universal.Torrent.Client.Messages.StandardMessages;
@@ -78,9 +79,7 @@ namespace Universal.Torrent.Client.Managers
                         id.Engine.DiskManager.BeginGetHash(id.TorrentManager, piece.Index, delegate(object o)
                         {
                             var hash = (byte[]) o;
-                            var result = hash == null
-                                ? false
-                                : id.TorrentManager.Torrent.Pieces.IsValid(hash, piece.Index);
+                            var result = hash != null && id.TorrentManager.Torrent.Pieces.IsValid(hash, piece.Index);
                             id.TorrentManager.Bitfield[message.PieceIndex] = result;
 
                             ClientEngine.MainLoop.Queue(delegate
@@ -90,19 +89,15 @@ namespace Universal.Torrent.Client.Managers
                                 id.TorrentManager.HashedPiece(new PieceHashedEventArgs(id.TorrentManager, piece.Index,
                                     result));
                                 var peers = new List<PeerId>(piece.Blocks.Length);
-                                for (var i = 0; i < piece.Blocks.Length; i++)
-                                    if (piece.Blocks[i].RequestedOff != null &&
-                                        !peers.Contains(piece.Blocks[i].RequestedOff))
-                                        peers.Add(piece.Blocks[i].RequestedOff);
+                                foreach (var t in piece.Blocks.Where(t => t.RequestedOff != null &&
+                                                                          !peers.Contains(t.RequestedOff)))
+                                    peers.Add(t.RequestedOff);
 
-                                for (var i = 0; i < peers.Count; i++)
+                                foreach (var t in peers.Where(t => t.Connection != null))
                                 {
-                                    if (peers[i].Connection != null)
-                                    {
-                                        peers[i].Peer.HashedPiece(result);
-                                        if (peers[i].Peer.TotalHashFails == 5)
-                                            peers[i].ConnectionManager.CleanupSocket(id, "Too many hash fails");
-                                    }
+                                    t.Peer.HashedPiece(result);
+                                    if (t.Peer.TotalHashFails == 5)
+                                        t.ConnectionManager.CleanupSocket(id, "Too many hash fails");
                                 }
 
                                 // If the piece was successfully hashed, enqueue a new "have" message to be sent out
@@ -119,7 +114,7 @@ namespace Universal.Torrent.Client.Managers
 
         internal void AddPieceRequests(PeerId id)
         {
-            PeerMessage msg = null;
+            PeerMessage msg;
             var maxRequests = id.MaxPendingRequests;
 
             if (id.AmRequestingPiecesCount >= maxRequests)
@@ -191,14 +186,13 @@ namespace Universal.Torrent.Client.Managers
         internal void Reset()
         {
             UnhashedPieces.SetAll(false);
-            if (Picker != null)
-                Picker.Reset();
+            Picker?.Reset();
         }
 
         internal int CurrentRequestCount()
         {
             return
-                (int) ClientEngine.MainLoop.QueueWait((MainLoopJob) delegate { return Picker.CurrentRequestCount(); });
+                (int) ClientEngine.MainLoop.QueueWait(() => Picker.CurrentRequestCount());
         }
 
         #region Old

@@ -58,7 +58,7 @@ namespace Universal.Torrent.Common
 
         #region Private Methods
 
-        private static StorageFolder GetFolderFromStrategy(StorageStrategy location)
+        public static StorageFolder GetFolderFromStrategy(StorageStrategy location)
         {
             switch (location)
             {
@@ -71,6 +71,24 @@ namespace Universal.Torrent.Common
 
                 default:
                     return ApplicationData.Current.LocalFolder;
+            }
+        }
+
+        public static Task DeleteFolderContentAsync(StorageStrategy location)
+        {
+            var folder = GetFolderFromStrategy(location);
+            return DeleteFolderContentAsync(folder);
+        }
+
+        public static async Task DeleteFolderContentAsync(StorageFolder folder)
+        {
+            var items = await folder.GetItemsAsync();
+            foreach (var storageItem in items)
+            {
+                if (storageItem is StorageFolder)
+                    await (storageItem as StorageFolder).DeleteAsync();
+                else if (storageItem is StorageFile)
+                    await (storageItem as StorageFile).DeleteAsync();
             }
         }
 
@@ -132,7 +150,7 @@ namespace Universal.Torrent.Common
             var parent = parentFolder;
 
             // ReSharper disable once LoopCanBeConvertedToQuery
-            foreach (var name in path.Trim('/').Split('/'))
+            foreach (var name in path.Trim('/').Split(new char['/'], StringSplitOptions.RemoveEmptyEntries))
             {
                 parent = await _EnsureFolderExistsAsync(name, parent).ConfigureAwait(false);
             }

@@ -99,7 +99,7 @@ namespace Universal.Torrent.Client.PieceWriter
         {
             if (offset < 0 || offset + count > torrentSize)
                 throw new ArgumentOutOfRangeException(nameof(offset));
-
+            
             var i = 0;
             var totalWritten = 0;
 
