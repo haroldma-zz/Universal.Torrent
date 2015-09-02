@@ -29,6 +29,7 @@
 
 using System;
 using System.Net;
+using System.Threading.Tasks;
 using Windows.Networking.Sockets;
 using Universal.Torrent.Client.Encryption;
 using Universal.Torrent.Client.PeerConnections;
@@ -49,22 +50,24 @@ namespace Universal.Torrent.Client.ConnectionListeners
         {
         }
 
-        public override async void Start()
+        public override void Start()
         {
             if (Status == ListenerStatus.Listening)
                 return;
-
-            try
+            Task.Factory.StartNew(async () =>
             {
-                _listener = new StreamSocketListener();
-                _listener.ConnectionReceived += ListenerOnConnectionReceived;
-                await _listener.BindServiceNameAsync(Endpoint.Port.ToString());
-                RaiseStatusChanged(ListenerStatus.Listening);
-            }
-            catch
-            {
-                RaiseStatusChanged(ListenerStatus.PortNotFree);
-            }
+                try
+                {
+                    _listener = new StreamSocketListener();
+                    _listener.ConnectionReceived += ListenerOnConnectionReceived;
+                    await _listener.BindServiceNameAsync(Endpoint.Port.ToString()).AsTask().ConfigureAwait(false);
+                    RaiseStatusChanged(ListenerStatus.Listening);
+                }
+                catch
+                {
+                    RaiseStatusChanged(ListenerStatus.PortNotFree);
+                }
+            });
         }
 
         private void ListenerOnConnectionReceived(StreamSocketListener sender,

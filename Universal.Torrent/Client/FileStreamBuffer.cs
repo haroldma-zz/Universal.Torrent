@@ -227,7 +227,8 @@ namespace Universal.Torrent.Client
                 var storageFile = await StorageHelper.CreateFileAsync(fullPath, file.TargetFolder);
                 if (access == FileAccessMode.ReadWrite)
                 {
-                    var randomAccessStream = await storageFile.OpenAsync(FileAccessMode.ReadWrite);
+                    var stream = File.Open(storageFile.Path, FileMode.Open, FileAccess.ReadWrite, FileShare.ReadWrite);
+                    var randomAccessStream = stream.AsRandomAccessStream();
                     try
                     {
                         var size = (long) randomAccessStream.Size;

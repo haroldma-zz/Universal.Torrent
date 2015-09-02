@@ -30,6 +30,7 @@
 using System;
 using System.Text;
 using Windows.Storage;
+using Universal.Torrent.Client;
 
 namespace Universal.Torrent.Common
 {
