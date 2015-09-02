@@ -13,14 +13,14 @@ namespace Universal.Torrent.Client.Tracker
 {
     public class UdpTracker : Tracker
     {
+        private readonly object _lock = new object();
         private readonly SemaphoreSlim _semaphoreSlim = new SemaphoreSlim(1, 1);
-        private TaskCompletionSource<byte[]> _taskCompletionSource;
+        private readonly DatagramSocket _tracker;
         private long _connectionId;
         private bool _hasConnected;
-        internal TimeSpan RetryDelay;
-        private readonly object _lock = new object();
+        private TaskCompletionSource<byte[]> _taskCompletionSource;
         private int _timeout;
-        private readonly DatagramSocket _tracker;
+        internal TimeSpan RetryDelay;
 
         public UdpTracker(Uri announceUrl)
             : base(announceUrl)
@@ -220,22 +220,58 @@ namespace Universal.Torrent.Client.Tracker
         private async Task SendRequestAsync(UdpTrackerMessage message)
         {
             var encodedMessage = message.Encode();
-            var dataWriter = new DataWriter(_tracker.OutputStream);
+            var dataWriter1 = new DataWriter(_tracker.OutputStream);
             try
             {
-                dataWriter.WriteBytes(encodedMessage);
-                await dataWriter.StoreAsync();
+                dataWriter1.WriteBytes(encodedMessage);
+                await dataWriter1.StoreAsync();
             }
             finally
             {
-                dataWriter.DetachStream();
+                dataWriter1.DetachStream();
             }
-            
-            // TODO: queue timeout
-            if (_timeout <= 1)
+
+            ClientEngine.MainLoop.QueueTimeout(RetryDelay, () =>
             {
-                // send message again
-            }
+                lock (_lock)
+                {
+                    if (_timeout == 0)
+                    {
+                        return false;
+                    }
+                    if (_timeout <= 4)
+                    {
+                        _timeout++;
+                        try
+                        {
+                            var dataWriter = new DataWriter(_tracker.OutputStream);
+                            try
+                            {
+                                dataWriter.WriteBytes(encodedMessage);
+                                dataWriter.StoreAsync().AsTask().Wait();
+                            }
+                            finally
+                            {
+                                dataWriter.DetachStream();
+                            }
+                        }
+                        catch (Exception exception1)
+                        {
+                            var exception = exception1;
+                            lock (_lock)
+                            {
+                                _timeout = 0;
+                            }
+                            _taskCompletionSource.TrySetException(exception);
+                            return false;
+                        }
+                        return true;
+                    }
+                    _timeout = 0;
+                    _taskCompletionSource.TrySetException(new Exception("Announce timeout."));
+                }
+                return false;
+            });
         }
 
         private UdpTrackerMessage Receive(UdpTrackerMessage originalMessage, byte[] receivedMessage)

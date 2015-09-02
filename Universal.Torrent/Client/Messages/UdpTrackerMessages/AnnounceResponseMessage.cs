@@ -78,7 +78,16 @@ namespace Universal.Torrent.Client.Messages.UdpTrackerMessages
             {
                 var ip = ReadInt(buffer, ref offset);
                 var port = (ushort) ReadShort(buffer, ref offset);
-                Peers.Add(new Peer("", new Uri("tcp://" + new IPEndPoint(new IPAddress(ip), port))));
+                try
+                {
+                    Peers.Add(new Peer("", new Uri("tcp://" + new IPEndPoint(new IPAddress(ip), port))));
+                }
+                catch
+                {
+
+
+                    // ignored
+                }
             }
         }
 

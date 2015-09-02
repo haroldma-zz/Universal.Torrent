@@ -73,12 +73,11 @@ namespace Universal.Torrent.Client.ConnectionListeners
         private void ListenerOnConnectionReceived(StreamSocketListener sender,
             StreamSocketListenerConnectionReceivedEventArgs args)
         {
-            var peerSocket = args.Socket;
             try
             {
-                if (peerSocket == null)
+                if (args.Socket == null)
                     return;
-
+                var peerSocket = args.Socket;
                 var uri = new Uri("tcp://" + peerSocket.Information.RemoteHostName.RawName + ':' +
                                   peerSocket.Information.RemoteServiceName);
                 var peer = new Peer("", uri, EncryptionTypes.All);
@@ -89,9 +88,6 @@ namespace Universal.Torrent.Client.ConnectionListeners
             }
             catch
             {
-                if (peerSocket == null)
-                    return;
-                peerSocket.Dispose();
             }
         }
 

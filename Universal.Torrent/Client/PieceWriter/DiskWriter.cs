@@ -104,7 +104,7 @@ namespace Universal.Torrent.Client.PieceWriter
         {
             try
             {
-                return file.TargetFolder.GetItemAsync(file.FullPath).AsTask().Result != null;
+                return File.Exists(Path.Combine(file.TargetFolder.Path, file.FullPath));
             }
             catch
             {

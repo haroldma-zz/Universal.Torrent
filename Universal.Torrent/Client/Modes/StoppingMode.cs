@@ -14,8 +14,9 @@ namespace Universal.Torrent.Client.Modes
         {
             CanAcceptConnections = false;
             var engine = manager.Engine;
-            if (manager.Mode is HashingMode)
-                _handle.AddHandle(((HashingMode) manager.Mode).HashingWaitHandle, "Hashing");
+            var mode = manager.Mode as HashingMode;
+            if (mode != null)
+                _handle.AddHandle(mode.HashingWaitHandle, "Hashing");
 
             if (manager.TrackerManager.CurrentTracker != null &&
                 manager.TrackerManager.CurrentTracker.Status == TrackerState.Ok)
