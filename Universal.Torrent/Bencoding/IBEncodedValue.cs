@@ -29,6 +29,7 @@
 
 using System;
 using System.IO;
+using System.Text;
 using Universal.Torrent.Common;
 
 namespace Universal.Torrent.Bencoding
@@ -125,7 +126,7 @@ namespace Universal.Torrent.Bencoding
         {
             if (stream == null)
                 throw new ArgumentNullException(nameof(stream));
-
+            
             return Decode(new RawReader(stream));
         }
 

@@ -515,8 +515,15 @@ namespace Universal.Torrent.Common
             {
                 using (var client = new HttpClient())
                 {
-                    var stream = await client.GetStreamAsync(url);
-                    return Load(stream);
+                    Stream stream;
+                    using (var responseStream = await client.GetStreamAsync(url))
+                    {
+                        stream = new MemoryStream();
+                        await responseStream.CopyToAsync(stream);
+                        stream.Position = 0;
+                    }
+                    using (stream)
+                        return Load(stream);
                 }
             }
             catch (Exception ex)
