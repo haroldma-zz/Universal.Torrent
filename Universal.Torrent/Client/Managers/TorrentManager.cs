@@ -294,6 +294,11 @@ namespace Universal.Torrent.Client.Managers
             Initialise(savePath, "", announces);
         }
 
+        public TorrentManager(MagnetLink magnetLink, StorageFolder savePath, TorrentSettings settings) 
+            : this(magnetLink, savePath, settings, savePath)
+        {
+        }
+
         public TorrentManager(MagnetLink magnetLink, StorageFolder savePath, TorrentSettings settings,
             StorageFolder torrentSaveFolder)
         {

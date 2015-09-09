@@ -24,6 +24,11 @@ namespace Universal.Torrent.Common
                 Add(v);
         }
 
+        public static IList<RawTrackerTier> CreateTiers(IEnumerable<string> trackers)
+        {
+            return trackers.Select(tracker => new RawTrackerTier(new[] {tracker})).ToList();
+        }
+
         internal BEncodedList Tier { get; set; }
 
         public string this[int index]

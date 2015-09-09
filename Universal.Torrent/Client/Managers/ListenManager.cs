@@ -41,7 +41,7 @@ namespace Universal.Torrent.Client.Managers
             }
             var id = new PeerId(e.Peer, e.TorrentManager) {Connection = e.Connection};
 
-            Debug.WriteLine("ListenManager - ConnectionReceived: {0}", id.Connection);
+            //Debug.WriteLine("ListenManager - ConnectionReceived: {0}", id.Connection);
 
             if (id.Connection.IsIncoming)
             {
@@ -113,7 +113,7 @@ namespace Universal.Torrent.Client.Managers
             //FIXME: #warning FIXME: Don't stop the message loop until Dispose() and track all incoming connections
             if (man == null) // We're not hosting that torrent
             {
-                Debug.WriteLine("ListenManager - Handshake requested nonexistant torrent");
+                //Debug.WriteLine("ListenManager - Handshake requested nonexistant torrent");
                 id.Connection.Dispose();
                 return;
             }
