@@ -493,6 +493,11 @@ namespace Universal.Torrent.Client.Managers
         /// </summary>
         public void Start()
         {
+            Start(false);
+        }
+
+        internal void Start(bool resume)
+        {
             ClientEngine.MainLoop.QueueWait(delegate
             {
                 CheckRegisteredAndDisposed();
@@ -508,6 +513,8 @@ namespace Universal.Torrent.Client.Managers
 
                 if (!HasMetadata)
                 {
+                    if (TrackerManager.CurrentTracker != null)
+                        this.TrackerManager.Announce(TorrentEvent.Started);
                     Mode = new MetadataMode(this, _torrentSaveFolder);
 #if !DISABLE_DHT
                     StartDht();
@@ -528,7 +535,7 @@ namespace Universal.Torrent.Client.Managers
                 if (State == TorrentState.Seeding || State == TorrentState.Downloading)
                     return;
 
-                if (TrackerManager.CurrentTracker != null)
+                if (TrackerManager.CurrentTracker != null && !resume)
                 {
                     if (this.TrackerManager.CurrentTracker.CanScrape)
                         this.TrackerManager.Scrape();

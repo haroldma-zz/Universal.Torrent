@@ -195,7 +195,7 @@ namespace Universal.Torrent.Client.Modes
             Manager.PieceManager.ChangePicker(Manager.CreateStandardPicker(), Manager.Bitfield, torrent.Files);
             foreach (var file in torrent.Files)
                 file.TargetFolder = Manager.SaveFolder;
-            Manager.Start();
+            Manager.Start(true);
         }
 
         protected override void HandleAllowedFastMessage(PeerId id, AllowedFastMessage message)
