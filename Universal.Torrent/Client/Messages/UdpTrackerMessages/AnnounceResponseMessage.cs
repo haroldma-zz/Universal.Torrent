@@ -76,7 +76,7 @@ namespace Universal.Torrent.Client.Messages.UdpTrackerMessages
         {
             while (offset <= (buffer.Length - 6))
             {
-                var ip = ReadInt(buffer, ref offset);
+                var ip = ReadInt(buffer, offset);
                 var port = (ushort) ReadShort(buffer, ref offset);
                 try
                 {
@@ -84,14 +84,12 @@ namespace Universal.Torrent.Client.Messages.UdpTrackerMessages
                 }
                 catch
                 {
-
-
                     // ignored
                 }
             }
         }
 
-    public override int Encode(byte[] buffer, int offset)
+        public override int Encode(byte[] buffer, int offset)
         {
             var written = offset;
 

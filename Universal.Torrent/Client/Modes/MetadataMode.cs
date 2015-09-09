@@ -30,6 +30,7 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using Windows.Storage;
 using Universal.Torrent.Bencoding;
 using Universal.Torrent.Client.Exceptions;
 using Universal.Torrent.Client.Managers;
@@ -49,12 +50,12 @@ namespace Universal.Torrent.Client.Modes
         private BitField _bitField;
         private PeerId _currentId;
         private DateTime _requestTimeout;
-        private string _savePath;
+        private StorageFolder _saveFolder;
 
-        public MetadataMode(TorrentManager manager, string savePath)
+        public MetadataMode(TorrentManager manager, StorageFolder saveFolder)
             : base(manager)
         {
-            _savePath = savePath;
+            _saveFolder = saveFolder;
         }
 
         public override bool CanHashCheck => true;
@@ -111,7 +112,7 @@ namespace Universal.Torrent.Client.Modes
             _currentId = null;
         }
 
-        protected override void HandleLtMetadataMessage(PeerId id, LTMetadata message)
+        protected override async void HandleLtMetadataMessage(PeerId id, LTMetadata message)
         {
             base.HandleLtMetadataMessage(id, message);
 
@@ -143,19 +144,19 @@ namespace Universal.Torrent.Client.Modes
                             {
                                 try
                                 {
-                                    if (Directory.Exists(_savePath))
-                                        _savePath = Path.Combine(_savePath, Manager.InfoHash.ToHex() + ".torrent");
-                                    File.WriteAllBytes(_savePath, dict.Encode());
+                                    var file = await _saveFolder.CreateFileAsync(Manager.InfoHash.ToHex() + ".torrent",
+                                        CreationCollisionOption.ReplaceExisting);
+                                    File.WriteAllBytes(file.Path, dict.Encode());
                                 }
                                 catch (Exception ex)
                                 {
-                                    Debug.WriteLine("*METADATA EXCEPTION* - Can not write in {0} : {1}", _savePath,
+                                    Debug.WriteLine("*METADATA EXCEPTION* - Can not write in {0} : {1}", _saveFolder,
                                         ex);
                                     Manager.Error = new Error(Reason.WriteFailure, ex);
                                     Manager.Mode = new ErrorMode(Manager);
                                     return;
                                 }
-                                t.TorrentPath = _savePath;
+                                t.TorrentPath = _saveFolder.Path;
                                 Manager.Torrent = t;
                                 SwitchToRegular();
                             }

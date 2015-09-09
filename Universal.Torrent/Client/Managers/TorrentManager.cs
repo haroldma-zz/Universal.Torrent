@@ -79,7 +79,10 @@ namespace Universal.Torrent.Client.Managers
         private int _hashFails; // The total number of pieces receieved which failed the hashcheck
         internal bool InternalIsInEndGame = false; // Set true when the torrent enters end game processing
         private Mode _mode;
-        private readonly string _torrentSave; // The path where the .torrent data will be saved when in metadata mode
+
+        private readonly StorageFolder _torrentSaveFolder;
+            // The path where the .torrent data will be saved when in metadata mode
+
         internal IUnchoker ChokeUnchoker; // Used to choke and unchoke peers
         internal DateTime LastCalledInactivePeerManager = DateTime.Now;
 #if !DISABLE_DHT
@@ -269,34 +272,40 @@ namespace Universal.Torrent.Client.Managers
         }
 
 
-        public TorrentManager(InfoHash infoHash, StorageFolder savePath, TorrentSettings settings, string torrentSave,
+        public TorrentManager(InfoHash infoHash, StorageFolder savePath, TorrentSettings settings,
+            IList<RawTrackerTier> announces) : this(infoHash, savePath, settings, savePath, announces)
+        {
+        }
+
+        public TorrentManager(InfoHash infoHash, StorageFolder savePath, TorrentSettings settings,
+            StorageFolder torrentSaveFolder,
             IList<RawTrackerTier> announces)
         {
             Check.InfoHash(infoHash);
             Check.SaveFolder(savePath);
             Check.Settings(settings);
-            Check.TorrentSave(torrentSave);
+            Check.TorrentSave(torrentSaveFolder);
             Check.Announces(announces);
 
             InfoHash = infoHash;
             Settings = settings;
-            _torrentSave = torrentSave;
+            _torrentSaveFolder = torrentSaveFolder;
 
             Initialise(savePath, "", announces);
         }
 
         public TorrentManager(MagnetLink magnetLink, StorageFolder savePath, TorrentSettings settings,
-            string torrentSave)
+            StorageFolder torrentSaveFolder)
         {
             Check.MagnetLink(magnetLink);
             Check.InfoHash(magnetLink.InfoHash);
             Check.SaveFolder(savePath);
             Check.Settings(settings);
-            Check.TorrentSave(torrentSave);
+            Check.TorrentSave(torrentSaveFolder);
 
             InfoHash = magnetLink.InfoHash;
             Settings = settings;
-            _torrentSave = torrentSave;
+            _torrentSaveFolder = torrentSaveFolder;
             IList<RawTrackerTier> announces = new RawTrackerTiers();
             if (magnetLink.AnnounceUrls != null)
                 announces.Add(magnetLink.AnnounceUrls);
@@ -494,7 +503,7 @@ namespace Universal.Torrent.Client.Managers
 
                 if (!HasMetadata)
                 {
-                    Mode = new MetadataMode(this, _torrentSave);
+                    Mode = new MetadataMode(this, _torrentSaveFolder);
 #if !DISABLE_DHT
                     StartDht();
 #endif
